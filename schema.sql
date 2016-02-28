@@ -1,0 +1,6 @@
+DROP TABLE IF EXISTS entries;
+CREATE TABLE entries (
+    id INTEGER PRIMATY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    text TEXT NOT NULL
+);
