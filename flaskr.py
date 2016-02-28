@@ -31,5 +31,16 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 
+@app.before_request
+def before_request():
+    g.db = connect_db()
+
+
+@app.teardown_request
+def teardon_requesT(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
 if __name__ == '__main__':
     app.run()
