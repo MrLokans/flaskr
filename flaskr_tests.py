@@ -48,5 +48,15 @@ class FlaskrTestCase(unittest.TestCase):
         rcvd = self.login('admin', 'invalid_password')
         self.assertIn('Invalid password', rcvd.data.decode('utf-8'))
 
+    def test_messages(self):
+        self.login('admin', 'default_password')
+        rcvd = self.app.post('/add',
+                             data={'title': '<Hello>',
+                                   'text': '<strong>HTML</strong> allowed here'},
+                             follow_redirects=True)
+        self.assertNotIn('No entries.', rcvd.data.decode('utf-8'))
+        self.assertIn('&lt;Hello&gt;', rcvd.data.decode('utf-8'))
+        self.assertIn('<strong>HTML</strong> allowed here', rcvd.data.decode('utf-8'))
+
 if __name__ == '__main__':
     unittest.main()
